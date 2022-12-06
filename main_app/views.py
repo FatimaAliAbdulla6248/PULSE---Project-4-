@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .forms import *
 from django.contrib.auth.forms import UserCreationForm
 from .models import *
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
@@ -31,5 +33,44 @@ def signup(request):
 def Home(request):
   return render(request, 'Home.html')
 
+def index(request):
+    person_fitness_form = PersonFitnessForm()
+    person = PersonFitness.objects.all()
+    return render(request, 'index.html', {
+        'person_fitness_form': person_fitness_form,
+        'person': person
+    })
 
+def about(request):
+  return render(request, 'about.html')
+
+
+#--------------------------------------------------------
+def add_personfitness(request, user_id):
+	# create the ModelForm using the data in request.POST
+  form = PersonFitnessForm (request.POST)
+  # validate the form
+  if form.is_valid():
+    # don't save the form to the db until it
+    # has the cat_id assigned
+    new_fitnessform = form.save(commit=False)
+    new_fitnessform.user_id = user_id
+    new_fitnessform.save()
+  person = PersonFitness.objects.all()
+  return render(request, 'index.html', {'person': person})
+
+
+
+ # Full CRUD person fitness form 
  
+class personfitnessformCreate(CreateView):
+  model = PersonFitness
+  fields = '__all__'
+
+class personfitnessformUpdate(UpdateView):
+  model = PersonFitness
+  fields = '__all__'
+
+# class personfitnessformDelete(DeleteView):
+#   model = PersonFitness
+#   success_url = 

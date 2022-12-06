@@ -1,6 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% if person_fitness_form %}
+    <form action='/addPersonFitness/{{ user.id }}' method='POST'>
+        {% csrf_token %}
+        {{ person_fitness_form.as_table }}
+        </br>
+        <input type='submit' value='submit'>
+    </form>
+    {% endif %}
 
-<h1>Index</h1>
+    {% if person %}
+    {% for p in person %}
+       <p> {{ p.goal }} </p>
+       <p> {{ p.Dont_eat }} </p>
+       <p> {{ p.currentweight}} </p>
+       <p> {{ p.height }} </p>
+       <p> {{ p.target_weight }} </p>
+       <p> {{ p.Gender }} </p>
+       <p> {{ p.Active }} </p>
+    {% endfor %}
+
+    {% endif %}
+ 
 
 {% endblock %}
