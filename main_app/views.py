@@ -71,6 +71,7 @@ class personfitnessformUpdate(UpdateView):
   model = PersonFitness
   fields = '__all__'
 
-# class personfitnessformDelete(DeleteView):
-#   model = PersonFitness
-#   success_url = 
+class personfitnessformDelete(DeleteView):
+  model = PersonFitness
+  success_url = '/profile/'
+
